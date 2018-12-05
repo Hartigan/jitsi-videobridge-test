@@ -1,0 +1,20 @@
+{
+    "name": "jitsi-videobridge",
+    "version": "1.0.0",
+    "description": "Load test for jitsi-videobridge",
+    "scripts": {
+        "build": "tsc --build ./src/browser/tsconfig.json && tsc --build ./src/local/tsconfig.json",
+        "test": "cd ./dist/ && node index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^3.1.6"
+    },
+    "dependencies": {
+        "@types/node": "^10.12.10",
+        "commander": "^2.19.0",
+        "puppeteer": "^1.10.0",
+        "requirejs": "^2.3.6"
+    }
+}
