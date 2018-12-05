@@ -1,6 +1,6 @@
 # jitsi-videobridge-test
-Load test for jitsi-videobridge
-`Node.js` applicatoin which runs headless `Chrome` instances for create and join conferences via jitsi-videobridge.
+Load test for [jitsi-videobridge](https://github.com/jitsi/jitsi-videobridge)
+`Node.js` applicatoin which runs headless `Chrome` instances for create and join conferences via [jitsi-videobridge](https://github.com/jitsi/jitsi-videobridge).
 
 # Prerequisite
 
