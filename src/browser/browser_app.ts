@@ -64,7 +64,7 @@ class Application {
             return;
         }
 
-        const conferenceId : string = answer.id        
+        const conferenceId : string = answer.id
 
         try {
 
@@ -178,7 +178,6 @@ class Application {
 
             console.log("run: will keep peers in the conference " + conferenceId + " for " + this.config.sessionTime + " ms")
             await delay(this.config.sessionTime * 1000)
-            this.peersSummary(peers)
         } catch (e) {
             console.error('run: application failed: ' + e)
             this.onPeersJoined(e)
@@ -200,19 +199,6 @@ class Application {
 
             console.log('run: application is completed')
         }
-    }
-
-    private peersSummary(peers: Array<Peer>) {
-        let onAirCount = 0
-        let noOnAirCount = 0
-        for (let p of peers) {
-            if (p.state === 'connected' && p.connectionStatus === 'on_air') {
-                onAirCount++
-            } else {
-                noOnAirCount++
-            }
-        }
-        console.log("peersSummary: connected (on_air) " + onAirCount + " rest peers " + noOnAirCount)
     }
 }
 
@@ -249,10 +235,10 @@ interface ApplicationContext {
     application.onPeersLeft = (error?: Error) => applicationContext.onAllPeersLeft(error)
     try {
         await application.run()
-        console.log('main.js: Applicatoin is completed')
+        console.log('main.js: Application is completed')
         applicationContext.onApplicationDone()
     } catch (e) {
-        console.error('main.js: Aplication is completed with error: ' + e)
+        console.error('main.js: Application is completed with error: ' + e)
         applicationContext.onApplicationDone(e)
     }
 })(window as Window & ApplicationContext)

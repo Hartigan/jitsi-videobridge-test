@@ -22,9 +22,7 @@ export class Peer {
     private isJoined = false
     private dataChannel: null | RTCDataChannel = null
     private audioTransceiver: null | RTCRtpTransceiver = null
-    state: null | string = null
-    connectionStatus: null | string = null
-    disconnectionReason: null | string = null
+
     private connectedTaskCompletionSource = new TaskCompletionSource<null>()
     private iceConnectedTaskCompletionSource = new TaskCompletionSource<null>()
     private dataChannelOpenedTaskCompletionSource = new TaskCompletionSource<null>()
@@ -36,8 +34,7 @@ export class Peer {
 
     private parseServerAnswer(
         bundle: types.ChannelBundle,
-        dataSctpConnection: types.SctpConnection
-    ) {
+        dataSctpConnection: types.SctpConnection): string {
         var c: types.Candidate = bundle.transport.candidates[0]
         var fingerprint: types.Fingerprint
 
@@ -89,8 +86,7 @@ export class Peer {
     private parseServerOffer(
         bundle: types.ChannelBundle,
         dataSctpConnection: types.SctpConnection,
-        ssrcs: string[]
-    ) {
+        ssrcs: string[]) {
         var c: types.Candidate = bundle.transport.candidates[0]
         var fingerprint: types.Fingerprint
 
@@ -347,26 +343,26 @@ export class Peer {
                 return
             }
             let msg = JSON.parse(data)
-            console.log('handleDataChannelMessage: <- handling ' + data)
+            console.log('handleDataChannelMessage: <- handling: ' + msg)
         })
     }
 
-    waitIceConnected() {
+    waitIceConnected(): Promise<null> {
         return this.iceConnectedTaskCompletionSource.task()
     }
 
-    waitDataChannelOpen() {
+    waitDataChannelOpen(): Promise<null> {
         return this.dataChannelOpenedTaskCompletionSource.task()
     }
 
-    private silence() {
+    private silence(): MediaStreamTrack {
         let oscillator = this.audioContext.createOscillator()
         let dst = oscillator.connect(this.audioContext.createMediaStreamDestination()) as MediaStreamAudioDestinationNode
         oscillator.start()
         return Object.assign(dst.stream.getAudioTracks()[0], { enabled: true })
     }
 
-    private noise() {
+    private noise(): MediaStreamTrack {
         const bufferSize = 2 * this.audioContext.sampleRate
 
         const noiseBuffer = this.audioContext.createBuffer(1, bufferSize, this.audioContext.sampleRate)
@@ -385,7 +381,7 @@ export class Peer {
         return Object.assign(dst.stream.getAudioTracks()[0], { enabled: true })
     }
 
-    private async audioFile(uri: string) {
+    private async audioFile(uri: string): Promise<MediaStreamTrack> {
         console.time("audioFile")
 
         console.log("audioFile: about to load audio file from " + uri)
@@ -398,7 +394,7 @@ export class Peer {
 
         const audioData = await response.arrayBuffer()
 
-        console.log("audioFile: downloaded audio file siize in bytes is " + audioData.byteLength)
+        console.log("audioFile: downloaded audio file size in bytes is " + audioData.byteLength)
 
         const audioBuffer = await this.audioContext.decodeAudioData(audioData)
         const bufferSource = await this.audioContext.createBufferSource()

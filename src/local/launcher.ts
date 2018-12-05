@@ -6,9 +6,9 @@ interface LauncherConfig {
     readonly jvbEndpoint: string,
     readonly peersCount: number,
     readonly callsCount: number,
-    readonly sessionTime: number,
+    readonly sessionTimeSeconds: number,
     readonly audioTrack? : string,
-    readonly delay : number,
+    readonly delayMilliseconds : number,
     readonly verbose : boolean
 }
 
@@ -20,12 +20,12 @@ export class Launcher {
     }
 
     async run() {
-        var calls : any[] = []
+        let calls: Promise<void>[] = []
         console.log(`calls count = ${this.config.callsCount}`)
-        for (var i = 0; i < this.config.callsCount; i++) {
-            var call = new Call(this.config, i)
+        for (let i = 0; i < this.config.callsCount; i++) {
+            let call = new Call(this.config, i)
             calls.push(call.startCall())
-            await delay(this.config.delay)
+            await delay(this.config.delayMilliseconds)
         }
 
         console.log("Launcher.run : will wait until all simulations completed")

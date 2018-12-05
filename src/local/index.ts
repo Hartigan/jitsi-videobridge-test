@@ -5,8 +5,8 @@ import { Launcher } from './launcher'
 const main = async (args : any) => {
     console.log("main: starting: ", args)
     const callsCount  = parseInt(args.calls)
-    const sessionTime = parseInt(args.time)
-    const delayTime = parseInt(args.delay)
+    const sessionTimeSeconds = parseInt(args.time)
+    const delayTimeMilliseconds = parseInt(args.delay)
     const peersCount = parseInt(args.peers)
     const audioTrack = args.audio
     const verbose = JSON.parse(args.verbose)
@@ -16,10 +16,10 @@ const main = async (args : any) => {
     const launcher = new Launcher({
         jvbEndpoint: args.endpoint,
         callsCount: callsCount,
-        sessionTime: sessionTime,
+        sessionTimeSeconds: sessionTimeSeconds,
         peersCount: peersCount,
         audioTrack: audioTrack,
-        delay: delayTime,
+        delayMilliseconds: delayTimeMilliseconds,
         verbose: verbose
     })
 

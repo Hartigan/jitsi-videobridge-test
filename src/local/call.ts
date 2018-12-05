@@ -3,7 +3,7 @@ const path = require("path")
 
 interface CallConfig {
     readonly peersCount: number,
-    readonly sessionTime: number,
+    readonly sessionTimeSeconds: number,
     readonly verbose : boolean
 }
 

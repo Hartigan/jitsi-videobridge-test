@@ -1,9 +1,13 @@
 import * as types from './jvb_types'
 import { Peer } from './peer'
 
-
 interface JVBConfig {
     readonly endpoint: string
+}
+
+interface CreateConferenceResult {
+    readonly answer: types.CreateConferenceAnswer
+    readonly ssrcs: string[]
 }
 
 export function getPeerId(i: number) {
@@ -21,7 +25,7 @@ export class JVBClient {
       this.config = config
     }
   
-    async createConference(peers: Peer[]) {
+    async createConference(peers: Peer[]): Promise<CreateConferenceResult> {
         const endpoint = this.config.endpoint + '/colibri/conferences'
         console.log('createConference: POST to ' + endpoint)
 
